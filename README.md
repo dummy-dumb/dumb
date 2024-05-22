@@ -1,3 +1,4 @@
+//TRAVERSAL
 #include <iostream>
 using namespace std;
 
@@ -67,7 +68,7 @@ int main() {
 }
 
 
-
+//TREE OPERATIONS
 #include <iostream>
 using namespace std;
 
