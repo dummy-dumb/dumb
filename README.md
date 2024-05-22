@@ -355,3 +355,98 @@ int main(){
 
 
 
+//TRAVERSAL ITERATIVE
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+// Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+void preorderTraversal(TreeNode* root) {
+    if (root == NULL)return;        
+    stack<TreeNode*> st;
+    TreeNode* current = root;
+    while (current != NULL || !st.empty()) {
+        while (current != NULL) {
+            cout << current->val << " ";
+            st.push(current);       
+            current = current->left;
+        }
+        current = st.top();     
+        st.pop();       
+        current = current->right;
+    }
+}
+
+void inorderTraversal(TreeNode* root) {
+    if (root == NULL)return;        
+    stack<TreeNode*> st;
+    TreeNode* current = root;
+    while (current != NULL || !st.empty()) {
+        while (current != NULL) {
+            st.push(current);       
+            current = current->left;
+        }
+        current = st.top();   
+        cout << current->val << " ";
+        st.pop();
+        //cout << current->val << " ";
+        current = current->right;
+    }
+}
+
+void postorderTraversal(TreeNode* root) {
+    if (root == NULL)
+        return;
+
+    stack<TreeNode*> st1, st2;
+    TreeNode* current = root;
+    st1.push(current);
+
+    while (!st1.empty()) {
+        current = st1.top();
+        st1.pop();
+        st2.push(current);
+
+        if (current->left!=NULL)
+            st1.push(current->left);
+
+        if (current->right!=NULL)
+            st1.push(current->right);
+    }
+    while (!st2.empty()) {
+        current = st2.top();
+        st2.pop();
+        cout << current->val << " ";
+    }
+}
+
+int main() {
+    TreeNode* root = new TreeNode(10);
+    root->left = new TreeNode(5);
+    root->right = new TreeNode(11);
+    root->left->left = new TreeNode(2);
+    root->left->right = new TreeNode(8);
+    root->right->right = new TreeNode(12);
+    
+    cout << "preorder traversal: ";
+    preorderTraversal(root);
+    cout << endl;
+    
+     cout << "inorder traversal: ";
+    inorderTraversal(root);
+    cout << endl;
+    
+     cout << "postorder traversal: ";
+    postorderTraversal(root);
+    cout << endl;
+
+    return 0;
+}
