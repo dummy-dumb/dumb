@@ -450,3 +450,132 @@ int main() {
 
     return 0;
 }
+
+
+
+
+//AVL
+#include <iostream>
+using namespace std;
+
+struct Node{
+    Node *lchild;
+    Node *rchild;
+    int data;
+    int height;
+}
+*root=nullptr;
+
+int nodeHeight(Node *p){
+    int hl,hr;
+    hl=p&& p->lchild?p->lchild->height:0;
+    hr=p&& p->rchild?p->rchild->height:0;
+    return hl>hr?hl+1:hr+1;
+}
+
+int balanceFactor(Node *p){
+    int hl,hr;
+    hl=p&& p->lchild?p->lchild->height:0;
+    hr=p&& p->rchild?p->rchild->height:0;
+    return hl-hr;
+}
+
+Node*LLrot(Node *p){
+    Node *pl=p->lchild;
+    Node *plr=pl->rchild;
+    pl->rchild=p;
+    p->lchild=plr;
+    p->height=nodeHeight(p);
+    pl->height=nodeHeight(pl);
+
+    if(root==p) root=pl;
+    return pl;
+}
+
+Node*RRrot(Node *p){
+    Node *pr=p->rchild;
+    Node *prl=pr->lchild;
+    pr->lchild=p;
+    p->rchild=prl;
+    p->height=nodeHeight(p);
+    pr->height=nodeHeight(pr);
+    
+    if(root==p) root=pr;
+    return pr;
+}
+
+Node*LRrot(Node *p){
+    Node *pl=p->lchild;
+    Node *plr=pl->rchild;
+    pl->rchild=plr->lchild;
+    p->lchild=plr->rchild;
+    plr->lchild=pl;
+    plr->rchild=p;
+
+    p->height=nodeHeight(p);
+    pl->height=nodeHeight(pl);
+    plr->height=nodeHeight(plr);
+
+    if(root==p) root=plr;
+    return plr;
+    
+}
+Node*RLrot(Node *p){
+    Node *pr=p->rchild;
+    Node *prl=pr->lchild;
+    pr->rchild=prl->rchild;
+    p->rchild=prl->lchild;
+    prl->lchild=p;
+    prl->rchild=pr;
+
+    p->height=nodeHeight(p);
+    pr->height=nodeHeight(pr);
+    prl->height=nodeHeight(prl);
+
+    if(root==p) root=prl;
+    return prl;
+}
+
+Node* RInsert(Node *p, int key) {    
+    Node *t=NULL;
+    if (p == NULL){
+        t=new Node;
+        t->data=key;
+        t->height=1;
+        t->lchild=t->rchild=NULL;
+        return t;
+    }       
+    if (key < p->data)
+        p->lchild = RInsert(p->lchild, key);
+    else if (key > p->data)
+        p->rchild = RInsert(p->rchild, key);
+
+    p->height=nodeHeight(p);
+
+    if(balanceFactor(p)==2&&balanceFactor(p->lchild)==1)    return LLrot(p);
+    if(balanceFactor(p)==-2&&balanceFactor(p->lchild)==-1)  return RRrot(p);
+    if(balanceFactor(p)==2&&balanceFactor(p->lchild)==-1)   return LRrot(p);
+    if(balanceFactor(p)==-2&&balanceFactor(p->lchild)==1)   return RLrot(p);    
+
+    return p;
+}
+void InOrder(Node *p) {
+    if (p != NULL) {       
+        InOrder(p->lchild);
+        cout << p->data << " ";
+        InOrder(p->rchild);
+    }
+}
+int main(){
+
+    root=RInsert(root,10);
+    RInsert(root,20);
+    RInsert(root,30);
+    RInsert(root,40);
+    RInsert(root,50);
+    RInsert(root,25);
+    cout << "InOrder:";
+    InOrder(root);   
+    return 0;
+}
+
