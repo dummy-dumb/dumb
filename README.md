@@ -1,4 +1,3 @@
-//TRAVERSAL
 #include <iostream>
 using namespace std;
 
@@ -68,7 +67,7 @@ int main() {
 }
 
 
-//TREE OPERATIONS
+
 #include <iostream>
 using namespace std;
 
@@ -229,6 +228,7 @@ int main() {
 }
 
 
+
 //BST INS SRCH DEL
 #include <iostream>
 using namespace std;
@@ -354,8 +354,7 @@ int main(){
 }
 
 
-
-//TRAVERSAL ITERATIVE
+//PRE IN POST ITERATIVE
 #include <iostream>
 #include <stack>
 
@@ -560,7 +559,8 @@ Node* RInsert(Node *p, int key) {
     return p;
 }
 void InOrder(Node *p) {
-    if (p != NULL) {       
+    if (p != NULL) {
+       
         InOrder(p->lchild);
         cout << p->data << " ";
         InOrder(p->rchild);
@@ -575,7 +575,74 @@ int main(){
     RInsert(root,50);
     RInsert(root,25);
     cout << "InOrder:";
-    InOrder(root);   
+    InOrder(root);
+   
     return 0;
+}
+
+
+
+//Matrix
+#include<iostream>
+using namespace std;
+#define MAX_VERTICES 10
+int G[MAX_VERTICES][MAX_VERTICES];
+
+void displayMatrix(int v) {
+   int i, j;
+   for(i = 0; i < v; i++){
+      for(j = 0; j < v; j++) {
+         cout << G[i][j] << "  ";
+      }
+      cout << "\n";
+   }
+}
+void addEdge(int u, int v) {
+   G[u][v] = 1;
+   G[v][u] = 1;
+}
+int main() {
+   addEdge(0, 1);
+   addEdge(0, 2);
+   addEdge(1, 3);
+   addEdge(2, 3);
+   addEdge(3, 5);
+   addEdge(3, 4);   
+   displayMatrix(6);//6 vertices
+   return 0;
+}
+
+
+
+//LIST
+#include<iostream>
+#include<list>
+using namespace std;
+#define MAX_VERTICES 10
+list<int> L[MAX_VERTICES];
+
+void displayAdjList(int v) {
+   for(int i = 0; i<v; i++) {
+      cout << i << "--->";      
+      for(int j : L[i]) {
+        cout << j << " ";
+      }
+      cout << "\n";
+    }
+}
+void addEdge(int u, int v) {    //add v into the list u, and u into list v
+   L[u].push_back(v);
+   L[v].push_back(u);
+}
+
+int main() {   
+   addEdge(0, 1);
+   addEdge(0, 2);
+   addEdge(1, 3);
+   addEdge(2, 3);
+   addEdge(3, 5);
+   addEdge(3, 4);   
+   displayAdjList(6);
+   return 0;
 }
 
