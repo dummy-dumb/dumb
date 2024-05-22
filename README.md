@@ -646,3 +646,142 @@ int main() {
    return 0;
 }
 
+
+
+
+//HASHING
+#include <iostream>
+using namespace std;
+#define SIZE 10
+int Hash_List[10]={0};
+
+void display(){
+    for(int i=0;i<SIZE;i++){
+        cout<<"At posn"<<i<<" = "<<Hash_List[i]<<"\n";
+    }
+}
+
+void Linear(int key){
+    int index=key%SIZE;
+
+    if (Hash_List[index]!=0){
+        int i=0;
+        while(Hash_List[(index+i)%SIZE]!=0){
+            i++;
+        }
+        Hash_List[(index+i)%SIZE]=key;
+    }
+    else {Hash_List[index]=key;}    
+}
+
+void Quadratic(int key){
+    int index=key%SIZE;
+
+    if (Hash_List[index]!=0){
+        int i=1;
+        while(Hash_List[(index+i*i)%SIZE]!=0){
+            i++;
+        }
+        Hash_List[(index+i*i)%SIZE]=key;
+    }
+    else {Hash_List[index]=key;}
+}
+
+int main(){
+    int o;
+    cout<<"Choose option:\n"<<"1)Linear probing\n"<<"2)Quadratic probing\n"<<"OPTION:";
+    cin>>o;
+
+    switch(o){
+        case 1:{
+
+            char ch;
+            int n;
+            cout << "Do you want to insert an element (y/n): ";
+            cin >> ch;
+
+            while (ch != 'n') {
+                cout<<"\nEnter the number:";
+                cin>>n;
+                Linear(n);
+                cout << "Do you want to insert another element (y/n): ";
+                cin >> ch;
+            }
+            cout<<"\n";
+            display();
+            break;
+        }
+
+        case 2:{
+            char ch;
+            int n;
+            cout << "Do you want to insert an element (y/n): ";
+            cin >> ch;
+
+            while (ch != 'n') {
+                cout<<"\nEnter the number:";
+                cin>>n;
+                Linear(n);
+                cout << "Do you want to insert another element (y/n): ";
+                cin >> ch;
+            }
+            cout<<"\n";
+            display();
+            break;
+        }
+    }      
+    return 0;
+}
+
+
+
+
+//heap
+#include<iostream>
+using namespace std;
+#define SIZE 30
+int Heap[30]={0};
+int HeapSize=0;
+
+void display(){
+    for (int i = 1; i <= HeapSize; ++i) {     
+        cout << Heap[i] << " ";
+    }
+    cout<<"\n";    
+}
+
+void MaxHeap(int sz){
+    int i=sz;
+    int temp=Heap[sz];
+    while(i>1&&temp>Heap[i/2]){
+        Heap[i]=Heap[i/2];
+        i=i/2;
+    }
+    Heap[i]=temp;
+}
+
+void insert(int n){
+    HeapSize++;
+    Heap[HeapSize] = n;
+    MaxHeap(HeapSize);
+}
+
+int main(){
+    char ch;
+    int n;
+    do {
+    cout<< "Do you want to insert an element (y/n): ";
+    cin >> ch;
+
+    if (ch == 'y') {
+            cout<< "\nEnter the number: ";
+            cin >> n;
+            insert(n);
+        }
+    } while (ch != 'n');
+    cout<<"\n";
+    display();
+            
+    return 0;
+}
+
